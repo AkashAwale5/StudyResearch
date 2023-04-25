@@ -1,5 +1,6 @@
 package com.study.service.impl;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,10 +32,11 @@ public class StudyServiceImpl implements StudyService {
 	@Autowired
 	private ModelMapper modelmapper;
 
+	private static final DecimalFormat decformat = new DecimalFormat("0.00");
+
 	@Override
 	public StudyDTO saveStudy(StudyDTO studydto) {
 		Study study = this.dtoToStudy(studydto);
-		
 
 		Status status = statusRepository.findById(1)
 				.orElseThrow((() -> new ResourceNotFoundException("Status", " id ", 1)));
@@ -65,14 +67,14 @@ public class StudyServiceImpl implements StudyService {
 	@Override
 	public List<StudyDTO> getAllStudies() {
 		List<Study> studies = studyRepository.findAll();
-		List<Study> allStudies= new ArrayList<>();
+		List<Study> allStudies = new ArrayList<>();
 		for (Study st : studies) {
-			if(st.getIsDeleted()==false)
-			{
+			if (st.getIsDeleted() == false) {
 				allStudies.add(st);
 			}
 		}
-		List<StudyDTO> studylist = allStudies.stream().map(study -> this.studytodto(study)).collect(Collectors.toList());
+		List<StudyDTO> studylist = allStudies.stream().map(study -> this.studytodto(study))
+				.collect(Collectors.toList());
 		return studylist;
 
 	}
@@ -85,7 +87,8 @@ public class StudyServiceImpl implements StudyService {
 				.orElseThrow((() -> new ResourceNotFoundException("Study", " id ", studyId)));
 		// ---------------duplicate checking------------
 		boolean findByName = studyRepository.findByName(study.getName()).isPresent();
-		if (findByName == true && savedStudy.getName().equals(study.getName())|| findByName==false) {
+		
+		if (findByName == true && savedStudy.getName().equals(study.getName()) || findByName == false) {
 		} else {
 			throw new DuplicateRecordFoundException("Study", "name", study.getName());
 		}
@@ -96,7 +99,10 @@ public class StudyServiceImpl implements StudyService {
 		savedStudy.setDescription(study.getDescription());
 		savedStudy.setPriority(study.getPriority());
 		savedStudy.setUpdatedBy("vaibhav");
-		//savedStudy.setVersion(0.2);
+
+		String str = decformat.format(savedStudy.getVersion() + 0.1);
+		double str1 = Double.parseDouble(str);
+		savedStudy.setVersion(str1);
 
 		List<ContactDetails> contacts = study.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
@@ -118,11 +124,18 @@ public class StudyServiceImpl implements StudyService {
 	public void deleteStudy(Integer studyId) {
 		Study study = studyRepository.findById(studyId)
 				.orElseThrow((() -> new ResourceNotFoundException("Study", " id ", studyId)));
-//		study.setDeleted(true);
+
+		String str = decformat.format(study.getVersion() + 0.1);
+		double str1 = Double.parseDouble(str);
+		study.setVersion(str1);
+
 		study.setIsDeleted(true);
+		study.setUpdatedBy("vaibhav");
+
 		List<ContactDetails> contacts = study.getContacts();
 		for (ContactDetails contactDetails : contacts) {
 			contactDetails.setDeleted(true);
+			contactDetails.setUpdatedBy("vaibhav");
 		}
 
 		studyRepository.save(study);
@@ -138,19 +151,27 @@ public class StudyServiceImpl implements StudyService {
 			Status status = statusRepository.findById(2)
 					.orElseThrow((() -> new ResourceNotFoundException("Status", " id ", 2)));
 			study.setStatus(status);
-			study.setVersion(0.2);
+
+			String str = decformat.format(study.getVersion() + 0.1);
+			double str1 = Double.parseDouble(str);
+			study.setVersion(str1);
+
 			study.setUpdatedBy("vaibhav");
 		} else if (study.getStatus().getDescription().equals("Active")) {
 			Status status = statusRepository.findById(3)
 					.orElseThrow((() -> new ResourceNotFoundException("Status", " id ", 3)));
 			study.setStatus(status);
-			study.setVersion(0.3);
+
+			String str = decformat.format(study.getVersion() + 0.1);
+			double str1 = Double.parseDouble(str);
+			study.setVersion(str1);
+
 			study.setUpdatedBy("vaibhav");
 		}
 		studyRepository.save(study);
 	}
 
-	// conversion of dto
+	// conversion of dtos
 	private Study dtoToStudy(StudyDTO studyDto) {
 		Study study = this.modelmapper.map(studyDto, Study.class);
 		return study;
