@@ -1,8 +1,6 @@
 package com.study.service;
 
 import java.util.List;
-
-import com.study.entity.v2.Study;
 import com.study.payloads.StudyDTO;
 
 public interface StudyService {

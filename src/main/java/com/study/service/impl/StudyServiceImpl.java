@@ -3,7 +3,6 @@ package com.study.service.impl;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -76,7 +75,6 @@ public class StudyServiceImpl implements StudyService {
 		List<StudyDTO> studylist = allStudies.stream().map(study -> this.studytodto(study))
 				.collect(Collectors.toList());
 		return studylist;
-
 	}
 
 	@Override
@@ -87,7 +85,7 @@ public class StudyServiceImpl implements StudyService {
 				.orElseThrow((() -> new ResourceNotFoundException("Study", " id ", studyId)));
 		// ---------------duplicate checking------------
 		boolean findByName = studyRepository.findByName(study.getName()).isPresent();
-		
+
 		if (findByName == true && savedStudy.getName().equals(study.getName()) || findByName == false) {
 		} else {
 			throw new DuplicateRecordFoundException("Study", "name", study.getName());
@@ -155,7 +153,6 @@ public class StudyServiceImpl implements StudyService {
 			String str = decformat.format(study.getVersion() + 0.1);
 			double str1 = Double.parseDouble(str);
 			study.setVersion(str1);
-
 			study.setUpdatedBy("vaibhav");
 		} else if (study.getStatus().getDescription().equals("Active")) {
 			Status status = statusRepository.findById(3)

@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.study.entity.v2.Study;
 import com.study.payloads.StudyDTO;
 import com.study.service.impl.StudyServiceImpl;
 
@@ -44,7 +42,7 @@ public class StudyControllerV2 {
 		return studyService.getStudy(studyId);
 	}
 
-	@PutMapping("/{studyId}")
+	@PatchMapping("/{studyId}")
 	public StudyDTO updateStudy(@Valid @RequestBody StudyDTO study, @PathVariable Integer studyId) {
 		return studyService.updateStudy(study, studyId);
 	}
@@ -54,7 +52,7 @@ public class StudyControllerV2 {
 		studyService.deleteStudy(studyId);
 	}
 
-	@PutMapping("/status/{studyId}")
+	@PatchMapping("/status/{studyId}")
 	public void updateStatus(@PathVariable Integer studyId) {
 		studyService.updateStudyStatus(studyId);
 
