@@ -16,4 +16,6 @@ public interface StudyService {
 	void deleteStudy(Integer studyId);
 	
 	void updateStudyStatus(Integer studyId);
+
+	void validateName(StudyDTO studyDTO);
 }

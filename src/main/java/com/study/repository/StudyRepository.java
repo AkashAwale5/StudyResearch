@@ -12,4 +12,6 @@ import com.study.entity.v2.Study;
 public interface StudyRepository extends JpaRepository<Study, Integer>
 {
 	Optional<Study> findByName(String name);
+	
+	//List<Study> findByIds(List<Integer> id);
 }

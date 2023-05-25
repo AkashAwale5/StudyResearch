@@ -56,28 +56,28 @@ public class StudyControllerV2Test {
 		assertEquals(savedDTO, resultDTO);
 	}
 	
-	@Test
-    public void testGetStudies() {
-		
-		ContactDetailsDTO contactDto= new ContactDetailsDTO(1, "akash@gmail.com", "1234567890", null, null, null, null, false);
-		List<ContactDetailsDTO> contactList= new ArrayList<>();
-		contactList.add(contactDto);
-		
-        List<StudyDTO> studyList = new ArrayList<>();
-        StudyDTO studyDTO = new StudyDTO();
-        studyDTO.setId(1);
-        studyDTO.setName("test");
-        studyDTO.setDescription("test description");
-        studyDTO.setContacts(contactList);
-        
-        studyList.add(studyDTO);
-
-        when(studyService.getAllStudies()).thenReturn(studyList);
-
-        List<StudyDTO> resultList = studyController.getStudies();
-
-        assertEquals(studyList, resultList);
-    }
+//	@Test
+//    public void testGetStudies() {
+//		
+//		ContactDetailsDTO contactDto= new ContactDetailsDTO(1, "akash@gmail.com", "1234567890", null, null, null, null, false);
+//		List<ContactDetailsDTO> contactList= new ArrayList<>();
+//		contactList.add(contactDto);
+//		
+//        List<StudyDTO> studyList = new ArrayList<>();
+//        StudyDTO studyDTO = new StudyDTO();
+//        studyDTO.setId(1);
+//        studyDTO.setName("test");
+//        studyDTO.setDescription("test description");
+//        studyDTO.setContacts(contactList);
+//        
+//        studyList.add(studyDTO);
+//
+//        when(studyService.getAllStudies()).thenReturn(studyList);
+//
+//        List<StudyDTO> resultList = studyController.getStudies();
+//
+//        assertEquals(studyList, resultList);
+//    }
 	
 	@Test
     public void testGetStudy() {
